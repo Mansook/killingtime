@@ -1,0 +1,10 @@
+.null {
+  background-color: white;
+}
+.success {
+  background-color: rgb(195, 255, 195);
+}
+.fail {
+  background-color: rgb(253, 201, 201);
+  text-decoration: line-through;
+}
