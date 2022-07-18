@@ -5,9 +5,24 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import rootReducer from "./modules";
+
 import { store } from "./store/config";
+import { tempsetuser, check } from "./modules/slices/user";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
+function loadUser() {
+  try {
+    const user = localStorage.getItem("user");
+
+    if (!user) return;
+
+    store.dispatch(tempsetuser(JSON.parse(user)));
+    store.dispatch(check());
+  } catch (e) {
+    console.log("local starge is not working");
+  }
+}
+loadUser();
 root.render(
   <Provider store={store}>
     <BrowserRouter>
