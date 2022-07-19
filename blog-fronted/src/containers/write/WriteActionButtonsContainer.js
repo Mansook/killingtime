@@ -9,25 +9,33 @@ const WriteActionButtonsContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const post = useSelector(selectWrite);
-  console.log(post.title);
+
   const onPublish = () => {
-    dispatch(writepost(post.title, post.body, post.tags));
+    dispatch(
+      writepost({
+        title: post.title,
+        body: post.body,
+        tags: post.tags,
+      })
+    );
   };
 
   const onCancel = () => {
     navigate("/");
   };
 
-  /*  useEffect(() => {
-    if (post) {
-      const { _id, user } = post;
+  useEffect(() => {
+    if (post.post) {
+      const id = post.post._id;
+      const username = post.post.user.username;
+      navigate(`/@${username}/${id}`);
     }
-    if (postError) {
-      console.log(postError);
+    if (post.postError) {
+      console.log(post.postError);
     }
-  }, [post, postError]);
+  }, [post]);
 
-  return <WriteActionButtons onPublish={onPublish} onCancel={onCancel} />;*/
+  return <WriteActionButtons onPublish={onPublish} onCancel={onCancel} />;
 };
 
 export default WriteActionButtonsContainer;

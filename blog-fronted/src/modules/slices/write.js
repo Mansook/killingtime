@@ -9,7 +9,7 @@ export function* writeSaga() {
   yield takeLatest(writepost, writepostSaga);
 }
 export const writeSlice = createSlice({
-  name: "load",
+  name: "write",
   initialState: {
     title: "",
     body: "",

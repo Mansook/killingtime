@@ -17,5 +17,5 @@ export const loadSlice = createSlice({
   },
 });
 export const { startLoading, finishLoading } = loadSlice.actions;
-export const selectPost = (state) => state.write;
+export const selectLoading = (state) => state.load;
 export default loadSlice.reducer;

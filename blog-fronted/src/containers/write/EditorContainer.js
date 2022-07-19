@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Editor from "../../components/write/Editor";
-import { selectPost } from "../../modules/slices/loading";
+import { selectPost } from "../../modules/slices/post";
+
 import { changefield, initialize } from "../../modules/slices/write";
 
 const EditorContainer = () => {
   const dispatch = useDispatch();
   const post = useSelector(selectPost);
-  console.log(post);
+
   const title = post.title;
   const body = post.body;
 
