@@ -10,8 +10,16 @@ posts.post("/", checkLoggedIn, postsCtrl.write);
 const post = new Router();
 
 posts.get("/:id", postsCtrl.read);
-posts.delete("/:id", checkLoggedIn, postsCtrl.checkOwnPost, postsCtrl.remove);
-posts.patch("/:id", checkLoggedIn, postsCtrl.checkOwnPost, postsCtrl.update);
+posts.delete(
+  "/:id",
+  checkLoggedIn,
+  /*postsCtrl.checkOwnPost, */ postsCtrl.remove
+);
+posts.patch(
+  "/:id",
+  checkLoggedIn,
+  /* postsCtrl.checkOwnPost,*/ postsCtrl.update
+);
 
 post.use("/:id", postsCtrl.getPostById, post.routes());
 

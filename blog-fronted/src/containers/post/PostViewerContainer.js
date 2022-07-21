@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import PostActionButtons from "../../components/post/PostActtionButton";
 import PostViewer from "../../components/post/PostViewer";
+import { removePost } from "../../lib/api/posts";
 import loading, { selectLoading } from "../../modules/slices/loading";
 import { readpost, selectPost, unloadpost } from "../../modules/slices/post";
 import { selectUser } from "../../modules/slices/user";
@@ -28,15 +29,25 @@ const PostViewerContainer = () => {
 
   const onEdit = () => {
     dispatch(setoriginalpost(post));
-    console.log("Tqkf");
+
     navigate("/write");
+  };
+  const onRemove = async () => {
+    try {
+      await removePost(postId);
+      navigate("/");
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const ownPost = (user && user._id) === (post && post.user._id);
 
   return (
     <PostViewer
-      actionButtons={ownPost && <PostActionButtons onEdit={onEdit} />}
+      actionButtons={
+        ownPost && <PostActionButtons onEdit={onEdit} onRemove={onRemove} />
+      }
       post={data.post}
       loading={loading}
       error={data.error}

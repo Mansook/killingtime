@@ -15,14 +15,16 @@ const WriteActionButtonsContainer = () => {
   const dispatch = useDispatch();
   const post = useSelector(selectWrite);
   const postID = useSelector(selectOriginalPostId);
-
+  const title = post.title;
+  const body = post.body;
+  const tags = post.tags;
   const onPublish = () => {
     if (postID) {
       dispatch(
         updatepost({
-          title: post.title,
-          body: post.body,
-          tags: post.tags,
+          title,
+          body,
+          tags,
           id: postID,
         })
       );
@@ -30,9 +32,9 @@ const WriteActionButtonsContainer = () => {
     }
     dispatch(
       writepost({
-        title: post.title,
-        body: post.body,
-        tags: post.tags,
+        title: title,
+        body: body,
+        tags: tags,
       })
     );
   };

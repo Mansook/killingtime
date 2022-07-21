@@ -29,6 +29,9 @@ export const writeSlice = createSlice({
       title: "",
       body: "",
       tags: [],
+      post: null,
+      postError: null,
+      originalPostId: null,
     }),
     changefield: (state, action) => ({
       ...state,
@@ -50,15 +53,13 @@ export const writeSlice = createSlice({
     }),
     setoriginalpost: (state, { payload: post }) => ({
       ...state,
-
       title: post.title,
       body: post.body,
       tags: post.tags,
-      originalPostId: post.user._id,
+      originalPostId: post._id,
     }),
     updatepost: (state, action) => {},
     updatepostsuccess: (state, action) => ({
-      ...state,
       post: action.payload,
       postError: null,
     }),
