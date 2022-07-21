@@ -1,10 +1,31 @@
 import Post from "../../models/post";
 import mongoose from "mongoose";
 import Joi from "joi";
+import sanitizeHtml from "sanitize-html";
 import { parse } from "../../../node_modules/dotenv/lib/main";
 
 const { ObjectId } = mongoose.Types;
-
+const sanitizeOption = {
+  allowedTags: [
+    "h1",
+    "h2",
+    "b",
+    "i",
+    "u",
+    "s",
+    "p",
+    "ul",
+    "ol",
+    "li",
+    "blockquote",
+    "a",
+    "img",
+  ],
+  allowedAttributes: {
+    a: ["href", "name", "target"],
+  },
+  allowedSchemes: ["data", "http"],
+};
 export const getPostById = async (ctx, next) => {
   const { id } = ctx.params;
   if (!ObjectId.isValid(id)) {
@@ -37,7 +58,7 @@ export const write = async (ctx) => {
   const { title, body, tags } = ctx.request.body;
   const post = new Post({
     title,
-    body,
+    body: sanitizeHtml(body, sanitizeOption),
     tags,
     user: ctx.state.user,
   });
@@ -47,6 +68,10 @@ export const write = async (ctx) => {
   } catch (e) {
     ctx.throw(500, e);
   }
+};
+const removeHtmlAndShorten = (body) => {
+  const filtered = sanitizeHtml(body, { allowedTags: [] });
+  return filtered.length < 200 ? filtered : `${filtered.slice(0, 200)}`;
 };
 export const list = async (ctx) => {
   const page = parseInt(ctx.query.page || "1", 10);
@@ -66,7 +91,7 @@ export const list = async (ctx) => {
       .map((post) => post.toJSON())
       .map((post) => ({
         ...post,
-        body: post.bodylength < 200 ? post.body : `${post.body.slice(0, 200)}`,
+        body: removeHtmlAndShorten(post.body),
       }));
   } catch (e) {
     ctx.throw(500, e);
@@ -96,6 +121,7 @@ export const remove = async (ctx) => {
 };
 export const update = async (ctx) => {
   const { id } = ctx.params;
+
   const schema = Joi.object().keys({
     title: Joi.string(),
     body: Joi.string(),
@@ -107,8 +133,12 @@ export const update = async (ctx) => {
     ctx.body = result.error;
     return;
   }
+  const nextData = { ...ctx.request.body };
+  if (nextData.body) {
+    nextData.body = sanitizeHtml(nextData.body, sanitizeOption);
+  }
   try {
-    const post = await Post.findByIdAndUpdate(id, ctx.request.body, {
+    const post = await Post.findByIdAndUpdate(id, nextData, {
       new: true,
     }).exec();
     if (!post) {
@@ -122,7 +152,7 @@ export const update = async (ctx) => {
 };
 export const checkOwnPost = (ctx, next) => {
   const { user, post } = ctx.state;
-  if (post.user._id.toString() !== user.id) {
+  if (post.user._id.toString() !== user._id) {
     ctx.status = 403;
     return;
   }

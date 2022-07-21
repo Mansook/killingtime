@@ -13,13 +13,18 @@ export const listSlice = createSlice({
   initialState: {
     posts: null,
     error: null,
+    lastPage: 1,
   },
 
   reducers: {
-    listposts: (state, action) => ({}),
-    listpostssuccess: (state, action) => ({
-      posts: action.payload,
+    listposts: (state, action) => ({
+      ...state,
+    }),
+    listpostssuccess: (state, { payload: posts, meta: response }) => ({
+      ...state,
+      posts: posts,
       error: null,
+      lastPage: parseInt(response.headers["last-page"], 10),
     }),
     listpostsfailure: (state, action) => ({
       error: true,
@@ -29,4 +34,5 @@ export const listSlice = createSlice({
 export const { listposts, listpostssuccess, listpostsfailure } =
   listSlice.actions;
 export const selectList = (state) => state.list;
+export const selectLastPage = (state) => state.list.lastPage;
 export default listSlice.reducer;

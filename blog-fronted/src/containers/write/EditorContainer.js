@@ -3,11 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import Editor from "../../components/write/Editor";
 import { selectPost } from "../../modules/slices/post";
 
-import { changefield, initialize } from "../../modules/slices/write";
+import {
+  changefield,
+  initialize,
+  selectWrite,
+} from "../../modules/slices/write";
 
 const EditorContainer = () => {
   const dispatch = useDispatch();
-  const post = useSelector(selectPost);
+  const post = useSelector(selectWrite);
 
   const title = post.title;
   const body = post.body;

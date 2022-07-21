@@ -3,14 +3,31 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import WriteActionButtons from "../../components/write/WriteActionButton";
-import { selectWrite, writepost } from "../../modules/slices/write";
+import {
+  selectOriginalPostId,
+  selectWrite,
+  updatepost,
+  writepost,
+} from "../../modules/slices/write";
 
 const WriteActionButtonsContainer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const post = useSelector(selectWrite);
+  const postID = useSelector(selectOriginalPostId);
 
   const onPublish = () => {
+    if (postID) {
+      dispatch(
+        updatepost({
+          title: post.title,
+          body: post.body,
+          tags: post.tags,
+          id: postID,
+        })
+      );
+      return;
+    }
     dispatch(
       writepost({
         title: post.title,
@@ -35,7 +52,13 @@ const WriteActionButtonsContainer = () => {
     }
   }, [post]);
 
-  return <WriteActionButtons onPublish={onPublish} onCancel={onCancel} />;
+  return (
+    <WriteActionButtons
+      isEdit={!!postID}
+      onPublish={onPublish}
+      onCancel={onCancel}
+    />
+  );
 };
 
 export default WriteActionButtonsContainer;

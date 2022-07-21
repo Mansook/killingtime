@@ -22,10 +22,7 @@ export const readSlice = createSlice({
       error: null,
     }),
     readpostfailure: (state, action) => ({ error: true }),
-    unloadpost: (state, action) => ({
-      post: null,
-      error: null,
-    }),
+    unloadpost: (state, action) => {},
   },
 });
 export const { readpost, readpostsuccess, readpostfailure, unloadpost } =

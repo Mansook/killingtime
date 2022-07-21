@@ -37,28 +37,30 @@ const PostItemBlock = styled.div`
   }
 `;
 
-const PostItem = () => {
+const PostItem = (poster) => {
+  const { body, tags, title, user, publishedDate } = poster.poster;
   return (
     <PostItemBlock>
-      <h2>제목</h2>
-      <SubInfo username="username" publishedDate={new Date()} />
-      <Tags tags={["태그1", "태그2"]} />
+      <h2>{title}</h2>
+      <SubInfo
+        username={user.username}
+        publishedDate={new Date(publishedDate).toLocaleDateString()}
+      />
+      <Tags tags={tags} />
       <SubInfo>
         <span>
           <b>username</b>
         </span>
-        <span>{new Date().toLocaleDateString()}</span>
       </SubInfo>
-      <div>
-        <div className="tag">#태그</div>
-        <div className="tag">#태그</div>
-      </div>
-      <p>포스트 내용의 일부분..</p>
+      <p>{body}</p>
     </PostItemBlock>
   );
 };
 
-const PostList = () => {
+const PostList = ({ loading, error, posts, showWriteButton }) => {
+  if (error) {
+    return <PostListBlock>에러발생</PostListBlock>;
+  }
   return (
     <PostListBlock>
       <WritePostButtonWrapper>
@@ -66,11 +68,13 @@ const PostList = () => {
           새 글 작성하기
         </Button>
       </WritePostButtonWrapper>
-      <div>
-        <PostItem />
-        <PostItem />
-        <PostItem />
-      </div>
+      {loading !== true && posts && (
+        <div>
+          {posts.map((post) => (
+            <PostItem poster={post} key={post._id} />
+          ))}
+        </div>
+      )}
     </PostListBlock>
   );
 };

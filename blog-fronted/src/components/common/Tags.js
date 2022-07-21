@@ -14,7 +14,6 @@ const TagsBlock = styled.div`
   }
 `;
 const Tags = ({ tags }) => {
-  console.log(tags);
   return (
     <TagsBlock>
       {tags.map((tag) => (
