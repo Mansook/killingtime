@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Client, GatewayIntentBits, EmbedBuilder } from "discord.js";
-import token from "./config.js";
+
 import championdata from "./champion.js";
 import {
   getGameDataByMatchId,
@@ -249,4 +249,4 @@ client.on("messageCreate", (msg) => {
     getTeamData();
   }
 });
-client.login(token.TOKEN);
+client.login(process.env.TOKEN);

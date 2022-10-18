@@ -1,10 +1,10 @@
 import axios from "axios";
-import token from "./config.js";
+
 export const getSummonerDataByName = async (name) => {
   try {
     const response = await axios.get(
       encodeURI(
-        `https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${name}?api_key=${token.RIOTKEY}`
+        `https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/${name}?api_key=${process.env.RIOTKEY}`
       )
     );
     return response;
@@ -17,7 +17,7 @@ export const getIngameDataById = async (id) => {
   try {
     const response = await axios.get(
       encodeURI(
-        `https://kr.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${id}?api_key=${token.RIOTKEY}`
+        `https://kr.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${id}?api_key=${process.env.RIOTKEY}`
       )
     );
     return response;
@@ -30,7 +30,7 @@ export const getUserDataById = async (id) => {
   try {
     const response = await axios.get(
       encodeURI(
-        `https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/${id}?api_key=${token.RIOTKEY}`
+        `https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/${id}?api_key=${process.env.RIOTKEY}`
       )
     );
     return response;
@@ -43,7 +43,7 @@ export const getRecentGameData = async (puuid) => {
   try {
     const response = await axios.get(
       encodeURI(
-        `https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=20&api_key=${token.RIOTKEY}`
+        `https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=20&api_key=${process.env.RIOTKEY}`
       )
     );
     return response;
@@ -56,7 +56,7 @@ export const getGameDataByMatchId = async (matchId) => {
   try {
     const response = await axios.get(
       encodeURI(
-        `https://asia.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${token.RIOTKEY}`
+        `https://asia.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${process.env.RIOTKEY}`
       )
     );
     return response;
