@@ -4,14 +4,14 @@ const Koa = require("koa");
 const cors = require("@koa/cors");
 const Router = require("koa-router");
 const mongoose = require("mongoose");
+
 const bodyParser = require("koa-bodyparser");
 const app = new Koa();
 app.use(bodyParser());
-app.use(cors());
 
 const router = new Router();
 const api = require("./api");
-router.use("/api", api.routes());
+
 mongoose.Promise = global.Promise;
 const { PORT, MONGO_URI } = process.env;
 console.log(MONGO_URI);

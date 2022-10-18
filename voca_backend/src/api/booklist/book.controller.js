@@ -16,7 +16,6 @@ exports.create = async (ctx) => {
   }
   ctx.body = book;
 };
-
 exports.list = async (ctx) => {
   let books;
   try {
