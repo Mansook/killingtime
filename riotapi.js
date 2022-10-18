@@ -1,5 +1,4 @@
 import axios from "axios";
-
 export const getSummonerDataByName = async (name) => {
   try {
     const response = await axios.get(
@@ -61,6 +60,6 @@ export const getGameDataByMatchId = async (matchId) => {
     );
     return response;
   } catch (e) {
-    //console.log(e);
+    console.log(e);
   }
 };

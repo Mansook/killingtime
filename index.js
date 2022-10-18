@@ -168,7 +168,7 @@ client.on("messageCreate", (msg) => {
       }
     }
     getSummonerData();
-  } else if (msg.content.includes(" 님이 로비에 참가하셨습니다.")) {
+  } else if (msg.content.includes("님이 로비에 참가하셨습니다.")) {
     let str = msg.content;
     let names = [];
     let temp = str.split("\n");
@@ -176,7 +176,7 @@ client.on("messageCreate", (msg) => {
       let i = 1;
       while (1) {
         if (i == name.length) break;
-        if (name.substring(i) === " 님이 로비에 참가하셨습니다.") {
+        if (name.substring(i) === "님이 로비에 참가하셨습니다.") {
           names.push(name.slice(0, i));
           break;
         }
@@ -186,13 +186,14 @@ client.on("messageCreate", (msg) => {
     if (names.length == 0) return;
 
     msg.reply("우리팀 정보를 검색하겠습니다");
+    console.log(names);
     let teamdata = [];
     async function getTeamData() {
       try {
         names.map(async (name) => {
           let response = await getSummonerDataByName(name);
           let { id, accountId, puuid, profileIconId, summonerLevel } =
-            await response.data;
+            response.data;
 
           response = await getUserDataById(id);
           let userData = await response.data;
